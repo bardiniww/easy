@@ -48,7 +48,115 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.1.4</version>
+                <configuration>
+                    <from>
+                        <image>eclipse-temurin:17@sha256:37646e9acfed59dd6de0849b40aedcee4b873ec05722b88b5df47d82e20883e8</image>
+<!--                        <platforms>-->
+<!--                            <platform>-->
+<!--                                <architecture>arm64</architecture>-->
+<!--                                <os>linux</os>-->
+<!--                            </platform>-->
+<!--                            <platform>-->
+<!--                                <architecture>amd64</architecture>-->
+<!--                                <os>linux</os>-->
+<!--                            </platform>-->
+<!--                        </platforms>-->
+                    </from>
+                    <container>
+                        <ports>
+                            <port>8080</port>
+                        </ports>
+                        <format>OCI</format>
+                    </container>
+<!--                    <to>-->
+<!--                        <tags>-->
+<!--                            <tag>latest</tag>-->
+<!--                        </tags>-->
+<!--                    </to>-->
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>build-frontend</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <!-- Use the latest released version:
+                        https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+                        <version>1.12.1</version>
+                        <configuration>
+                            <nodeVersion>v4.6.0</nodeVersion>
+                            <workingDirectory>src/frontend</workingDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>install node and npm</id>
+                                <goals>
+                                    <goal>install-node-and-npm</goal>
+                                </goals>
+                                <configuration>
+                                    <nodeVersion>v19.3.0</nodeVersion>
+                                    <npmVersion>9.2.0</npmVersion>
+                                </configuration>
+                            </execution>
+                            <!-- get dependencies /node_modules  -->
+                            <execution>
+                                <id>npm install</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>install</arguments>
+                                </configuration>
+                            </execution>
+                            <!-- build static /build -->
+                            <execution>
+                                <id>npm run build</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>run build</arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-build-folder</id>
+                                <phase>process-classes</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <resources>
+                                        <resource>
+                                            <directory>src/frontend/build</directory>
+                                        </resource>
+
+                                    </resources>
+                                    <outputDirectory>${basedir}/target/classes/static</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

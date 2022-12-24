@@ -10,4 +10,5 @@ import lombok.*;
 public final class User {
     private long id;
     private String name;
+    private String email;
 }
