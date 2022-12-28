@@ -1,14 +1,16 @@
-import {useState, useEffect} from "react";
-import {Breadcrumb, Layout, Menu, theme, Table, Spin, Empty} from 'antd';
+import React, {useEffect, useState} from "react";
+import {Breadcrumb, Button, Empty, Layout, Menu, Spin, Table, theme} from 'antd';
 import {
     DesktopOutlined,
     FileOutlined,
     LoadingOutlined,
     PieChartOutlined,
+    PlusOutlined,
     TeamOutlined,
-    UserOutlined,
+    UserOutlined
 } from '@ant-design/icons';
 import {getAllUsers} from "./client";
+import UserDrawerForm from "./UserDrawerForm";
 import './App.css';
 
 const {Header, Content, Footer, Sider} = Layout;
@@ -57,13 +59,14 @@ const columns = [
     }
 ];
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 
 
 function App() {
     const [users, setUsers] = useState([]);
     const [collapsed, setCollapsed] = useState(false);
     const [fetching, setFetching] = useState(true);
+    const [showDrawer, setShowDrawer] = useState(false)
 
     const {
         token: {colorBgContainer},
@@ -85,24 +88,35 @@ function App() {
 
     const renderUsers = () => {
         if (fetching) {
-            return <Spin indicator={antIcon} />;
+            return <Spin indicator={antIcon}/>;
         }
         if (users.length <= 0) {
-            return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
+            return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>;
         }
-        return <Table
-            dataSource={users}
-            columns={columns}
-            bordered
-            title={() => 'Users'}
-            pagination={{
-                pageSize: 50,
-            }}
-            scroll={{
-                y: 600,
-            }}
-            rowKey={(user) => user.id}
-        />;
+        return <>
+            <UserDrawerForm
+                showDrawer={showDrawer}
+                setShowDrawer={setShowDrawer}
+            />
+            <Table
+                dataSource={users}
+                columns={columns}
+                bordered
+                title={() =>
+                    <Button type="primary" size={"small"} icon={<PlusOutlined/>}
+                            onClick={() => setShowDrawer(!showDrawer)}>
+                        Add user
+                    </Button>
+                }
+                pagination={{
+                    pageSize: 50,
+                }}
+                scroll={{
+                    y: 600,
+                }}
+                rowKey={(user) => user.id}
+            />
+        </>;
     }
 
     return <Layout
@@ -137,8 +151,8 @@ function App() {
                         margin: '16px 0',
                     }}
                 >
-                    <Breadcrumb.Item>User</Breadcrumb.Item>
-                    <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                    {/*<Breadcrumb.Item>User</Breadcrumb.Item>*/}
+                    {/*<Breadcrumb.Item>Bill</Breadcrumb.Item>*/}
                 </Breadcrumb>
                 <div
                     style={{
