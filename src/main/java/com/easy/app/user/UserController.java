@@ -14,20 +14,11 @@ import java.util.List;
 @Slf4j
 class UserController {
 
+    private final UserService userService;
+
     @GetMapping
     List<User> getAllUsers() {
         log.info("getAllUsers request passed");
-        return List.of(
-                new User(
-                        1,
-                        "Vasya",
-                        "vasya@mail"
-                ),
-                new User(
-                        2,
-                        "Sanya",
-                        "sanya@mail"
-                )
-        );
+        return userService.getAllUsers();
     }
 }
