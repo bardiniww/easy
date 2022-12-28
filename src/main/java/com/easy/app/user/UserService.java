@@ -14,4 +14,9 @@ class UserService {
     List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    void addUser(User user) {
+        //todo impl validation
+        userRepository.save(user);
+    }
 }
