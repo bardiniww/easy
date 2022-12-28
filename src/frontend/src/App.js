@@ -41,15 +41,20 @@ const columns = [
         key: 'id',
     },
     {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
+        title: 'Login',
+        dataIndex: 'login',
+        key: 'login',
     },
     {
         title: 'Email',
         dataIndex: 'email',
         key: 'email',
     },
+    {
+        title: 'Type',
+        dataIndex: 'type',
+        key: 'type',
+    }
 ];
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -94,7 +99,7 @@ function App() {
                 pageSize: 50,
             }}
             scroll={{
-                y: 240,
+                y: 600,
             }}
             rowKey={(user) => user.id}
         />;
