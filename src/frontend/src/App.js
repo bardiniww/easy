@@ -97,6 +97,7 @@ function App() {
             <UserDrawerForm
                 showDrawer={showDrawer}
                 setShowDrawer={setShowDrawer}
+                fetchUsers={fetchUsers}
             />
             <Table
                 dataSource={users}
