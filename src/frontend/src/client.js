@@ -25,3 +25,8 @@ export const addNewUser = user =>
             body: JSON.stringify(user)
         }
     );
+
+export const deleteUser = userId =>
+    fetch(`api/v1/user/${userId}`, {
+        method: 'DELETE'
+    }).then(checkStatus);

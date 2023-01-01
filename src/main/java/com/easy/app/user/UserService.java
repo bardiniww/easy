@@ -19,4 +19,9 @@ class UserService {
         //todo impl validation
         userRepository.save(user);
     }
+
+    void deleteUser(long userId) {
+        //todo check if user exist
+        userRepository.deleteById(userId);
+    }
 }

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Avatar, Badge, Breadcrumb, Button, Empty, Layout, Menu, Spin, Table, Tag, theme} from 'antd';
+import {Avatar, Badge, Breadcrumb, Button, Empty, Layout, Menu, Popconfirm, Space, Spin, Table, Tag, theme} from 'antd';
 import {
     DesktopOutlined,
     FileOutlined,
@@ -9,9 +9,10 @@ import {
     TeamOutlined,
     UserOutlined
 } from '@ant-design/icons';
-import {getAllUsers} from "./client";
+import {deleteUser, getAllUsers} from "./client";
 import UserDrawerForm from "./UserDrawerForm";
 import './App.css';
+import {successNotification} from "./Notification";
 
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -45,7 +46,19 @@ const TheAvatar = ({login}) => {
 
 }
 
-const columns = [
+const removeUser = (userId, callback) => {
+    deleteUser(userId).then(
+        () => {
+            successNotification(
+                "Success!",
+                `${userId} was deleted from the system`
+            );
+            callback();
+        }
+    )
+}
+
+const columns = fetchUsers => [
     {
         title: '',
         dataIndex: 'avatar',
@@ -71,11 +84,32 @@ const columns = [
         title: 'Type',
         dataIndex: 'type',
         key: 'type',
+    },
+    {
+        title: 'Actions',
+        dataIndex: 'actions',
+        key: 'actions',
+        render: (text, user) =>
+            <Space className="site-button-ghost-wrapper" wrap>
+                <Button type="primary" ghost>
+                    Edit
+                </Button>
+                <Popconfirm
+                    title="Delete user?"
+                    description="Are you sure chuvak?"
+                    onConfirm={() => removeUser(user.id, fetchUsers)}
+                    onOpenChange={() => console.log('user delete request sent')}
+                >
+                    <Button type="primary" danger ghost>
+                        Delete
+                    </Button>
+                </Popconfirm>
+            </Space>
+
     }
 ];
 
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
-
 
 function App() {
     const [users, setUsers] = useState([]);
@@ -116,7 +150,7 @@ function App() {
             />
             <Table
                 dataSource={users}
-                columns={columns}
+                columns={columns(fetchUsers)}
                 bordered
                 title={() =>
                     <>
@@ -124,7 +158,6 @@ function App() {
                         <Badge
                             className="site-badge-count-4"
                             count={users.length}
-                            // style={{backgroundColor: '#52c41a'}}
                         />
                         <br/><br/>
                         <Button type="primary" size={"small"} icon={<PlusOutlined/>}
