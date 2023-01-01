@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Breadcrumb, Button, Empty, Layout, Menu, Spin, Table, theme} from 'antd';
+import {Avatar, Badge, Breadcrumb, Button, Empty, Layout, Menu, Spin, Table, Tag, theme} from 'antd';
 import {
     DesktopOutlined,
     FileOutlined,
@@ -36,7 +36,22 @@ const items = [
     getItem('Files', '9', <FileOutlined/>),
 ];
 
+const TheAvatar = ({login}) => {
+    let trim = login.trim()
+    if (trim.length === 0) {
+        return <Avatar icon={<UserOutlined/>}/>
+    }
+    return <Avatar>{login.charAt(0)}</Avatar>
+
+}
+
 const columns = [
+    {
+        title: '',
+        dataIndex: 'avatar',
+        key: 'avatar',
+        render: (text, user) => <TheAvatar login={user.login}/>
+    },
     {
         title: 'Id',
         dataIndex: 'id',
@@ -104,10 +119,19 @@ function App() {
                 columns={columns}
                 bordered
                 title={() =>
-                    <Button type="primary" size={"small"} icon={<PlusOutlined/>}
-                            onClick={() => setShowDrawer(!showDrawer)}>
-                        Add user
-                    </Button>
+                    <>
+                        <Tag>Number of users:</Tag>
+                        <Badge
+                            className="site-badge-count-4"
+                            count={users.length}
+                            // style={{backgroundColor: '#52c41a'}}
+                        />
+                        <br/><br/>
+                        <Button type="primary" size={"small"} icon={<PlusOutlined/>}
+                                onClick={() => setShowDrawer(!showDrawer)}>
+                            Add user
+                        </Button>
+                    </>
                 }
                 pagination={{
                     pageSize: 50,

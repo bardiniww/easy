@@ -1,6 +1,6 @@
 import {Button, Col, Drawer, Form, Input, Row, Select} from 'antd';
 import {addNewUser} from "./client";
-// import {successNotification, errorNotification} from "./Notification";
+import {successNotification} from "./Notification";
 
 const {Option} = Select;
 
@@ -49,10 +49,18 @@ function UserDrawerForm({showDrawer, setShowDrawer, fetchUsers}) {
             .then(() => {
                 console.log("user creation request sent")
                 onCLose()
+                successNotification(
+                    "Success!",
+                    `${user.login} was added to the system`
+                )
                 fetchUsers()
             })
             .catch(error => {
                 console.log(error)
+                // errorNotification(
+                //     "Error!",
+                //     `${user.login} was interrupted by error`
+                // )
             })
     }
 
