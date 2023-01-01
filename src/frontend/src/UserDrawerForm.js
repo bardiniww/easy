@@ -1,12 +1,8 @@
 import {Button, Col, Drawer, Form, Input, Row, Select} from 'antd';
 import {addNewUser} from "./client";
-// import {LoadingOutlined} from "@ant-design/icons";
-// import {useState} from 'react';
 // import {successNotification, errorNotification} from "./Notification";
 
 const {Option} = Select;
-
-// const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 function UserDrawerForm({showDrawer, setShowDrawer, fetchUsers}) {
     // const onCLose = () => setShowDrawer(false);
@@ -52,6 +48,8 @@ function UserDrawerForm({showDrawer, setShowDrawer, fetchUsers}) {
         addNewUser(user)
             .then(() => {
                 console.log("user creation request sent")
+                onCLose()
+                fetchUsers()
             })
             .catch(error => {
                 console.log(error)
@@ -66,7 +64,7 @@ function UserDrawerForm({showDrawer, setShowDrawer, fetchUsers}) {
         title="Create new user"
         width={720}
         onClose={onCLose}
-        visible={showDrawer}
+        open={showDrawer}
         bodyStyle={{paddingBottom: 80}}
         footer={
             <div
