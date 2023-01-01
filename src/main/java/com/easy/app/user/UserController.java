@@ -22,11 +22,13 @@ class UserController {
 
     @PostMapping
     void addUser(@RequestBody final User user) {
+        log.info("addUser request passed");
         userService.addUser(user);
     }
 
     @DeleteMapping(path = "{userId}")
     void deleteUser(@PathVariable("userId") long userId) {
+        log.info("deleteUser request passed");
         userService.deleteUser(userId);
     }
 }

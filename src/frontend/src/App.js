@@ -12,7 +12,7 @@ import {
 import {deleteUser, getAllUsers} from "./client";
 import UserDrawerForm from "./UserDrawerForm";
 import './App.css';
-import {successNotification} from "./Notification";
+import {errorNotification, successNotification} from "./Notification";
 
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -47,15 +47,27 @@ const TheAvatar = ({login}) => {
 }
 
 const removeUser = (userId, callback) => {
-    deleteUser(userId).then(
-        () => {
-            successNotification(
-                "Success!",
-                `${userId} was deleted from the system`
-            );
-            callback();
-        }
-    )
+    deleteUser(userId)
+        .then(
+            () => {
+                successNotification(
+                    "Success!",
+                    `${userId} was deleted from the system`
+                );
+                callback();
+            }
+        )
+        .catch(err => {
+                console.log(err.response)
+                err.response.json().then(res => {
+                    console.log(res);
+                    errorNotification(
+                        "There was an issue...",
+                        `${res.message} [${res.status}] [${res.error}]`
+                    )
+                })
+            }
+        )
 }
 
 const columns = fetchUsers => [
@@ -127,8 +139,18 @@ function App() {
             .then(data => {
                 console.log(data);
                 setUsers(data);
-                setFetching(false)
-            });
+            })
+            .catch(err => {
+                console.log(err.response)
+                err.response.json().then(res => {
+                    console.log(res)
+                    errorNotification(
+                        "There was an issue...",
+                        `${res.message} [${res.status}] [${res.error}]`
+                    )
+                })
+            })
+            .finally(() => setFetching(false));
 
     useEffect(() => {
         console.log("component is mounted");

@@ -1,48 +1,17 @@
 import {Button, Col, Drawer, Form, Input, Row, Select} from 'antd';
 import {addNewUser} from "./client";
-import {successNotification} from "./Notification";
+import {errorNotification, successNotification} from "./Notification";
+import {useState} from "react";
 
 const {Option} = Select;
 
 function UserDrawerForm({showDrawer, setShowDrawer, fetchUsers}) {
-    // const onCLose = () => setShowDrawer(false);
-    // const [submitting, setSubmitting] = useState(false);
-    //
-    // const onFinish = user => {
-    //     setSubmitting(true)
-    //     console.log(JSON.stringify(user, null, 2))
-    //     addNewUser(user)
-    //         .then(() => {
-    //             console.log("user added")
-    //             onCLose();
-    //             successNotification(
-    //                 "User successfully added",
-    //                 `${user.name} was added to the system`
-    //             )
-    //             fetchUsers();
-    //         }).catch(err => {
-    //         console.log(err);
-    //         err.response.json().then(res => {
-    //             console.log(res);
-    //             errorNotification(
-    //                 "There was an issue",
-    //                 `${res.message} [${res.status}] [${res.error}]`,
-    //                 "bottomLeft"
-    //             )
-    //         });
-    //     }).finally(() => {
-    //         setSubmitting(false);
-    //     })
-    // };
-    //
-    // const onFinishFailed = errorInfo => {
-    //     alert(JSON.stringify(errorInfo, null, 2));
-    // };
+    const [submitting, setSubmitting] = useState(false);
 
     const onCLose = () => {
         setShowDrawer(false)
     }
-
+    //todo ошибка не работает
     const onFinish = user => {
         console.log(JSON.stringify(user, null, 2))
         addNewUser(user)
@@ -55,12 +24,19 @@ function UserDrawerForm({showDrawer, setShowDrawer, fetchUsers}) {
                 )
                 fetchUsers()
             })
-            .catch(error => {
-                console.log(error)
-                // errorNotification(
-                //     "Error!",
-                //     `${user.login} was interrupted by error`
-                // )
+            .catch(err => {
+                    console.log(err.response)
+                    err.response.json().then(res => {
+                        console.log(res);
+                        errorNotification(
+                            "There was an issue...",
+                            `${res.message} [${res.status}] [${res.error}]`
+                        )
+                    })
+                }
+            )
+            .finally(() => {
+                setSubmitting(false);
             })
     }
 
