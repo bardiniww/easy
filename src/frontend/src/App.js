@@ -162,7 +162,18 @@ function App() {
             return <Spin indicator={antIcon}/>;
         }
         if (users.length <= 0) {
-            return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>;
+            return <>
+                <UserDrawerForm
+                    showDrawer={showDrawer}
+                    setShowDrawer={setShowDrawer}
+                    fetchUsers={fetchUsers}
+                />
+                <Button type="primary" size={"small"} icon={<PlusOutlined/>}
+                        onClick={() => setShowDrawer(!showDrawer)}>
+                    Add user
+                </Button>
+                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>;
+            </>
         }
         return <>
             <UserDrawerForm
