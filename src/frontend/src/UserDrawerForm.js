@@ -11,7 +11,7 @@ function UserDrawerForm({showDrawer, setShowDrawer, fetchUsers}) {
     const onCLose = () => {
         setShowDrawer(false)
     }
-    //todo ошибка не работает
+
     const onFinish = user => {
         console.log(JSON.stringify(user, null, 2))
         addNewUser(user)
