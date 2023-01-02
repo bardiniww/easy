@@ -1,5 +1,6 @@
 package com.easy.app.user;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ class UserController {
     }
 
     @PostMapping
-    void addUser(@RequestBody final User user) {
+    void addUser(@Valid @RequestBody final User user) {
         log.info("addUser request passed");
         userService.addUser(user);
     }
