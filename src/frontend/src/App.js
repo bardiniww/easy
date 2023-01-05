@@ -257,8 +257,6 @@ function App() {
                         margin: '16px 0',
                     }}
                 >
-                    {/*<Breadcrumb.Item>User</Breadcrumb.Item>*/}
-                    {/*<Breadcrumb.Item>Bill</Breadcrumb.Item>*/}
                 </Breadcrumb>
                 <div
                     style={{
@@ -275,7 +273,7 @@ function App() {
                     target="_blank"
                     rel="noreferrer"
                     href="https://www.linkedin.com/in/ibardin/">
-                    Linkedin link
+                    Linkedin link here
                 </a>
             </Divider>
         </Layout>
