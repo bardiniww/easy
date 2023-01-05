@@ -273,7 +273,7 @@ function App() {
                     target="_blank"
                     rel="noreferrer"
                     href="https://www.linkedin.com/in/ibardin/">
-                    Linkedin link here
+                    Linkedin link here.
                 </a>
             </Divider>
         </Layout>
