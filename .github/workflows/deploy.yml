@@ -38,6 +38,7 @@ jobs:
     steps:
       - uses: 8398a7/action-slack@v3
         with:
+          github_token: ${{ secrets.PAT }}
           status: ${{ job.status }}
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
           text: 'CICD ongoing... :eyes:'
@@ -49,6 +50,7 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v1.4.3
         with:
+          github_token: ${{ secrets.PAT }}
           java-version: ${{ env.JAVA_VERSION }}
 
       - name: Build Number
@@ -58,6 +60,7 @@ jobs:
       - name: Docker Login
         uses: docker/login-action@f3364599c6aa293cdc2b8391b1b56d0c30e45c8a
         with:
+          github_token: ${{ secrets.PAT }}
           username: ${{ env.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
@@ -69,6 +72,7 @@ jobs:
               -Dapp.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}}
       - uses: 8398a7/action-slack@v3
         with:
+          github_token: ${{ secrets.PAT }}
           status: ${{ job.status }}
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
           text: ':white_check_mark: pushed bardiniww/easy:${{steps.build-number.outputs.BUILD_NUMBER}} to docker hub... https://hub.docker.com/repository/docker/bardiniww/easy'
@@ -87,6 +91,7 @@ jobs:
           git push
       - uses: 8398a7/action-slack@v3
         with:
+          github_token: ${{ secrets.PAT }}
           status: ${{ job.status }}
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
           text: ':elasticbeanstalk: :aws: Deployment started... :grimacing: :crossed_fingers:'
@@ -95,6 +100,7 @@ jobs:
       - name: Beanstalk Deploy
         uses: einaregilsson/beanstalk-deploy@ebe3476a4ce991d54336935e75e78dd9d86f9408
         with:
+          github_token: ${{ secrets.PAT }}
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: ${{ env.AWS_REGION }}
@@ -106,6 +112,7 @@ jobs:
           wait_for_deployment: 60
       - uses: 8398a7/action-slack@v3
         with:
+          github_token: ${{ secrets.PAT }}
           status: ${{ job.status }}
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
           text: ':tada: :arrow_right: http://easy-env-2.eba-bejebdwf.ap-southeast-1.elasticbeanstalk.com'
