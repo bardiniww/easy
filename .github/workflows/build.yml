@@ -7,9 +7,10 @@ on:
   workflow_dispatch:
 
 env:
-  POSTGRESQL_DB: easy
-  POSTGRESQL_USER: postgres
-  POSTGRESQL_PASSWORD: password
+  POSTGRESQL_VERSION: 13.1
+  POSTGRESQL_DB: "easy"
+  POSTGRESQL_USER: "postgres"
+  POSTGRESQL_PASSWORD: "password"
   JAVA_VERSION: 1.17
 
 jobs:
