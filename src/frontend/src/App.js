@@ -1,5 +1,20 @@
 import React, {useEffect, useState} from "react";
-import {Avatar, Badge, Breadcrumb, Button, Empty, Layout, Menu, Popconfirm, Space, Spin, Table, Tag, theme} from 'antd';
+import {
+    Avatar,
+    Badge,
+    Breadcrumb,
+    Button,
+    Divider,
+    Empty,
+    Layout,
+    Menu,
+    Popconfirm,
+    Space,
+    Spin,
+    Table,
+    Tag,
+    theme
+} from 'antd';
 import {
     DesktopOutlined,
     FileOutlined,
@@ -255,13 +270,14 @@ function App() {
                     {renderUsers()}
                 </div>
             </Content>
-            <Footer
-                style={{
-                    textAlign: 'center',
-                }}
-            >
-                Mda bleat ©2022 Created by ahuennii frontender
-            </Footer>
+            <Divider>
+                <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href="https://www.linkedin.com/in/ibardin/">
+                    Linkedin link
+                </a>
+            </Divider>
         </Layout>
     </Layout>
 }
