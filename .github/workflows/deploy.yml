@@ -7,7 +7,6 @@ on:
   workflow_dispatch:
 
 env:
-#  CI: false
   # Postgres
   POSTGRESQL_DB: easy
   POSTGRESQL_USER: postgres
